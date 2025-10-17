@@ -1,5 +1,6 @@
 {
   "framework": null,
+  "devCommand": "",
   "buildCommand": "npm run vercel-build && npm test",
   "outputDirectory": "build/install",
   "installCommand": "npm run deps && npm install"
