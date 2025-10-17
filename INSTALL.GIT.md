@@ -8,6 +8,22 @@ before new build.
 
 You need Leptonica 1.74.2 (minimum) for Tesseract 4.0x.
 
+## Installing required libraries (Debian/Ubuntu)
+
+On Debian and Ubuntu based systems the mandatory libraries, including
+Leptonica, can be installed with `apt` before building Tesseract from
+source:
+
+```
+sudo apt-get install libleptonica-dev libpng-dev libtiff5-dev \
+  zlib1g-dev libjpeg-dev libcairo2-dev libpango1.0-dev libicu-dev \
+  libarchive-dev libfmt-dev
+```
+
+The list above matches the dependencies used by the training tools and the
+CMake build documented below, so installing them up front avoids
+configuration or compilation failures caused by missing development files.
+
 Known dependencies for training tools (excluding leptonica):
  * compiler with c++11 support
  * automake
