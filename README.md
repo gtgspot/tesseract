@@ -99,6 +99,8 @@ If you need bindings to `libtesseract` for other programming languages, please s
 
 Documentation of Tesseract generated from source code by doxygen can be found on [tesseract-ocr.github.io](https://tesseract-ocr.github.io/).
 
+If you plan to integrate Tesseract into a Vercel-hosted frontend, see the [guide for configuring a pure web dashboard on Vercel](doc/vercel_dashboard_setup.md) which outlines a component-driven architecture and deployment checklist.
+
 ## Support
 
 Before you submit an issue, please review **[the guidelines for this repository](https://github.com/tesseract-ocr/tesseract/blob/main/CONTRIBUTING.md)**.
