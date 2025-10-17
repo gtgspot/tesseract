@@ -1,0 +1,131 @@
+{
+  "server": {
+    "name": "tesseract-mcp",
+    "version": "1.0.0",
+    "network": {
+      "host": "0.0.0.0",
+      "port": 9710,
+      "protocol": "https",
+      "basePath": "/api/v1"
+    },
+    "capabilities": {
+      "jobs": true,
+      "metrics": true,
+      "health": true,
+      "tracing": false
+    }
+  },
+  "authentication": {
+    "mode": "token",
+    "tokenHeader": "X-MCP-Auth",
+    "tokens": [
+      {
+        "name": "admin",
+        "value": "${MCP_ADMIN_TOKEN}",
+        "roles": ["admin", "operator"]
+      },
+      {
+        "name": "readonly",
+        "value": "${MCP_READ_TOKEN}",
+        "roles": ["viewer"]
+      }
+    ],
+    "rateLimit": {
+      "requestsPerMinute": 600,
+      "burst": 120
+    }
+  },
+  "persistence": {
+    "driver": "postgres",
+    "connection": {
+      "host": "db",
+      "port": 5432,
+      "database": "mcp",
+      "username": "${MCP_DB_USER}",
+      "password": "${MCP_DB_PASS}",
+      "ssl": true
+    },
+    "pool": {
+      "minConnections": 5,
+      "maxConnections": 30,
+      "idleTimeoutSeconds": 300
+    }
+  },
+  "queues": {
+    "driver": "redis",
+    "connection": {
+      "host": "redis",
+      "port": 6379,
+      "database": 4,
+      "password": "${MCP_REDIS_PASS}"
+    },
+    "defaults": {
+      "visibilityTimeoutSeconds": 900,
+      "retryDelaySeconds": 30,
+      "maxRetries": 5
+    }
+  },
+  "metrics": {
+    "provider": "prometheus",
+    "endpoint": "/metrics",
+    "pushGateway": {
+      "enabled": false,
+      "url": "http://pushgateway:9091"
+    }
+  },
+  "health": {
+    "liveness": {
+      "path": "/health/live",
+      "intervalSeconds": 10
+    },
+    "readiness": {
+      "path": "/health/ready",
+      "intervalSeconds": 30,
+      "startupGracePeriodSeconds": 60
+    }
+  },
+  "logging": {
+    "level": "info",
+    "format": "json",
+    "enableHttpAccessLog": true,
+    "fields": {
+      "service": "tesseract-mcp",
+      "environment": "production"
+    }
+  },
+  "plugins": [
+    {
+      "name": "spellcheck",
+      "path": "plugins/spellcheck.so",
+      "config": {
+        "language": "eng",
+        "dictionaryPath": "${MCP_DICT_PATH}",
+        "strict": true
+      }
+    },
+    {
+      "name": "document-converter",
+      "path": "plugins/doc-converter.so",
+      "config": {
+        "parallelism": 4,
+        "timeoutSeconds": 120
+      }
+    }
+  ],
+  "limits": {
+    "request": {
+      "maxPayloadBytes": 10485760,
+      "timeoutSeconds": 60
+    },
+    "response": {
+      "stream": {
+        "chunkSizeBytes": 262144,
+        "maxDurationSeconds": 900
+      }
+    }
+  },
+  "featureFlags": {
+    "enableAdaptiveScaling": true,
+    "allowExperimentalApis": false
+  }
+}
