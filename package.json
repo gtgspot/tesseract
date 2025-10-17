@@ -1,0 +1,28 @@
+{
+  "name": "tesseract",
+  "version": "5.2.0",
+  "description": "Workspace configuration for Tesseract OCR development utilities.",
+  "private": true,
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tesseract-ocr/tesseract.git"
+  },
+  "scripts": {
+    "preconfigure": "bash npm-scripts/install-deps.sh",
+    "configure": "bash npm-scripts/configure.sh",
+    "deps": "bash npm-scripts/install-deps.sh",
+    "prebuild:native": "npm run configure",
+    "build": "npm run vercel-build",
+    "build:native": "cmake --build build --config Release",
+    "preinstall:native": "npm run configure",
+    "install:native": "cmake --build build --config Release --target install",
+    "pretest": "npm run build:native",
+    "test": "ctest --test-dir build --output-on-failure",
+    "configure:sw": "TESSERACT_USE_SW=1 npm run configure",
+    "vercel-build": "npm run install:native"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
