@@ -43,6 +43,10 @@ parts:
   leptonica:
     source: https://github.com/DanBloomberg/leptonica/archive/1.74.2.tar.gz
     plugin: autotools
+    build-packages:
+      - libpng-dev
+      - libtiff5-dev
+      - zlib1g-dev
     stage-packages:
       - libjbig0
       - libjpeg-turbo8
