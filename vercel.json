@@ -1,0 +1,6 @@
+{
+  "framework": null,
+  "buildCommand": "npm run vercel-build",
+  "outputDirectory": "build/install",
+  "installCommand": "npm install"
+}
